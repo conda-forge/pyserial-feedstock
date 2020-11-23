@@ -6,14 +6,16 @@ package:
   version: {{ version }}
 
 source:
-  fn: {{ name }}-{{ version }}.tar.gz
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
   sha256: 3c77e014170dfffbd816e6ffc205e9842efb10be9f58ec16d3e8675b4925cddb
 
 build:
   noarch: python
   number: 0
-  script: {{ PYTHON }} -m pip install . -vvv
+  script: {{ PYTHON }} -m pip install . -vv
+  entry_points:
+    - pyserial-miniterm = serial.tools.miniterm:main
+    - pyserial-ports = serial.tools.list_ports:main
 
 requirements:
   host:
@@ -25,6 +27,9 @@ requirements:
 test:
   imports:
     - serial
+  commands:
+    - pyserial-miniterm --help
+    - pyserial-ports --help
 
 about:
   home: https://github.com/pyserial/pyserial
