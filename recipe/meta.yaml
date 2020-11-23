@@ -1,5 +1,5 @@
 {% set name = "pyserial" %}
-{% set version = "3.4" %}
+{% set version = "3.5" %}
 
 package:
   name: {{ name|lower }}
@@ -8,12 +8,12 @@ package:
 source:
   fn: {{ name }}-{{ version }}.tar.gz
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 6e2d401fdee0eab996cf734e67773a0143b932772ca8b42451440cfed942c627
+  sha256: 3c77e014170dfffbd816e6ffc205e9842efb10be9f58ec16d3e8675b4925cddb
 
 build:
   noarch: python
-  number: 2
-  script: "{{ PYTHON }} -m pip install . -vvv"
+  number: 0
+  script: {{ PYTHON }} -m pip install . -vvv
 
 requirements:
   host:
