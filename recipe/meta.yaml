@@ -6,12 +6,12 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
   sha256: 3c77e014170dfffbd816e6ffc205e9842efb10be9f58ec16d3e8675b4925cddb
 
 build:
   noarch: python
-  number: 0
+  number: 1
   script: {{ PYTHON }} -m pip install . -vv
   entry_points:
     - pyserial-miniterm = serial.tools.miniterm:main
@@ -19,12 +19,14 @@ build:
 
 requirements:
   host:
-    - python >=2
+    - python {{ python_min }}
     - pip
   run:
-    - python >=2
+    - python >={{ python_min }}
 
 test:
+  requires:
+    - python {{ python_min }}
   imports:
     - serial
   commands:
