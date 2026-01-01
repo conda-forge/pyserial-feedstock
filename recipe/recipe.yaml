@@ -1,0 +1,60 @@
+schema_version: 1
+
+context:
+  name: pyserial
+  version: 3.5
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  url: https://pypi.org/packages/source/${{ name[0] }}/${{ name }}/${{ name }}-${{ version }}.tar.gz
+  sha256: 3c77e014170dfffbd816e6ffc205e9842efb10be9f58ec16d3e8675b4925cddb
+
+build:
+  number: 2
+  noarch: python
+  script: ${{ PYTHON }} -m pip install . -vv
+  python:
+    entry_points:
+      - pyserial-miniterm = serial.tools.miniterm:main
+      - pyserial-ports = serial.tools.list_ports:main
+
+requirements:
+  host:
+    - python ${{ python_min }}.*
+    - pip
+    - setuptools
+  run:
+    - python >=${{ python_min }}
+
+tests:
+  - python:
+      imports:
+        - serial
+      python_version: ${{ python_min }}.*
+  - requirements:
+      run:
+        - python ${{ python_min }}.*
+    script:
+      - pyserial-miniterm --help
+      - pyserial-ports --help
+
+about:
+  license: BSD-3-Clause
+  license_file: LICENSE.txt
+  summary: Python serial port access library
+  description: |
+    pySerial encapsulates the access for the serial port. It provides backends
+    for Python running on Windows, OSX, Linux, BSD (possibly any POSIX
+    compliant system) and IronPython. The module named "serial" automatically
+    selects the appropriate backend.
+  homepage: https://github.com/pyserial/pyserial
+  repository: https://github.com/pyserial/pyserial
+  documentation: https://pyserial.readthedocs.io/en/latest/
+
+extra:
+  recipe-maintainers:
+    - shaunwbell
+    - carlodri
